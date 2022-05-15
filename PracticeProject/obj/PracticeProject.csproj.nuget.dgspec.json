@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Ibos\\PracticeProject\\PracticeProject\\PracticeProject.csproj": {}
+    "C:\\PracticeProject\\PracticeProject\\PracticeProject.csproj": {}
   },
   "projects": {
-    "C:\\Ibos\\PracticeProject\\PracticeProject\\PracticeProject.csproj": {
+    "C:\\PracticeProject\\PracticeProject\\PracticeProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Ibos\\PracticeProject\\PracticeProject\\PracticeProject.csproj",
+        "projectUniqueName": "C:\\PracticeProject\\PracticeProject\\PracticeProject.csproj",
         "projectName": "PracticeProject",
-        "projectPath": "C:\\Ibos\\PracticeProject\\PracticeProject\\PracticeProject.csproj",
+        "projectPath": "C:\\PracticeProject\\PracticeProject\\PracticeProject.csproj",
         "packagesPath": "C:\\Users\\farja\\.nuget\\packages\\",
-        "outputPath": "C:\\Ibos\\PracticeProject\\PracticeProject\\obj\\",
+        "outputPath": "C:\\PracticeProject\\PracticeProject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\farja\\AppData\\Roaming\\NuGet\\NuGet.Config",
