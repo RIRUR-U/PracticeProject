@@ -1,4 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = string.Empty;
+connectionString = builder.Configuration.GetConnectionString("Development");
+
+//builder.Services.AddDbContext<HRDbContext>(options =>
+//options.UseSqlServer(connectionString));
 
 // Add services to the container.
 
