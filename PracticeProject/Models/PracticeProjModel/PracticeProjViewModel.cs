@@ -1,0 +1,60 @@
+﻿namespace PracticeProject.Models.PracticeProjViewModel
+{
+    public class PracticeProjViewModel
+    {
+        public class ItemsViewModel
+        {
+            public long IntItemId { get; set; }
+            public string StrItemName { get; set; } = null!;
+            public long NumStockQuantity { get; set; }
+            public bool? IsActive { get; set; }
+        }
+        public class PartnerViewModel
+        {
+            public long IntPartnerId { get; set; }
+            public string StrPartnerName { get; set; } = null!;
+            public long IntPartnerTypeId { get; set; }
+            public bool? IsActive { get; set; }
+        }
+        public class PartnerTypeViewModel
+        {
+            public long IntPartnerTypeId { get; set; }
+            public string StrPartnerTypeName { get; set; } = null!;
+            public bool? IsActive { get; set; }
+        }
+        public class PurchaseViewModel
+        {
+            public long IntPurchaseId { get; set; }
+            public long IntSupplierId { get; set; }
+            public DateTime DtePurchaseDate { get; set; }
+            public bool? IsActive { get; set; }
+        }
+        public class PurchaseDetailsViewModel
+        {
+            public long IntDetailsId { get; set; }
+            public long IntPurchaseId { get; set; }
+            public long IntItemId { get; set; }
+            public long NumItemQuantity { get; set; }
+            public long NumUnitPrice { get; set; }
+            public bool? IsActive { get; set; }
+        }
+        public class SalesviewModel
+        {
+            public long IntSalesId { get; set; }
+            public long IntCustomerId { get; set; }
+            public DateTime DteSalesDate { get; set; }
+            public bool? IsActive { get; set; }
+        }
+
+        public class SalesDetailsViewModel
+        {
+            public long IntDetailsId { get; set; }
+            public long IntSalesId { get; set; }
+            public long IntItemId { get; set; }
+            public long? IntItemQuantity { get; set; }
+            public long NumUnitPrice { get; set; }
+            public bool? IsActive { get; set; }
+        }
+
+    }
+}
