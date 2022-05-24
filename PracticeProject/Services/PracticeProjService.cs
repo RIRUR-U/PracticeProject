@@ -5,8 +5,9 @@ using PracticeProject.Models;
 using PracticeProject.Services.Interfaces;
 using PracticeProject.Models.PracticeProjViewModel;
 using System.Data;
-using static PracticeProject.Models.PracticeProjViewModel.PracticeProjViewModel;
+
 using PracticeProject.Data.Entity;
+using static PracticeProject.Models.PracticeProjViewModel.PracticeProjViewModel;
 
 namespace PracticeProject.Services
 {
@@ -55,6 +56,7 @@ namespace PracticeProject.Services
                 mes.Message = ex.Message;
                 mes.StatusCode = 500;
             }
+            return mes;
         }
 
 
