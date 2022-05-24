@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using PracticeProject;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+DependencyContainer.RegisterServices(builder.Services); //creating request pipeline
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
