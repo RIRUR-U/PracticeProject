@@ -7,5 +7,6 @@ namespace PracticeProject.Services.Interfaces
     public interface IPracticeProj
     {
         Task<MessageHelper> CreateItems(List<ItemsViewModel> objlist);
+        Task<List<GetItemsViewModel>> GetItems(long IntItemId);
     }
 }

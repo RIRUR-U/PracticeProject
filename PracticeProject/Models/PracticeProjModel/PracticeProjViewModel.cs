@@ -5,9 +5,21 @@
         public class ItemsViewModel
         {
             public long IntItemId { get; set; }
-            public string StrItemName { get; set; } = null!;
+            public string? StrItemName { get; set; }
             public long NumStockQuantity { get; set; }
             public bool? IsActive { get; set; }
+        }
+        public class GetItemsViewModel
+        {
+            public long IntItemId { get; set; }
+            public string? StrItemName { get; set; }
+            public long? NumStockQuantity { get; set; }
+        }
+        public class EditViewModel
+        {
+            public long IntItemId { get; set; }
+            public string? StrItemName { get; set; }
+            public long? NumStockQuantity { get; set; }
         }
         public class PartnerViewModel
         {

@@ -22,5 +22,13 @@ namespace PracticeProject.Controllers
 
         }
 
+        [HttpGet]
+        [Route("GetItems")]
+        public async Task<List<GetItemsViewModel>> GetItems(long IntItemId)
+        {
+            return await _practice.GetItems(IntItemId);
+
+        }
+
     }
 }

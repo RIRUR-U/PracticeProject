@@ -11,7 +11,7 @@ using static PracticeProject.Models.PracticeProjViewModel.PracticeProjViewModel;
 
 namespace PracticeProject.Services
 {
-    public class PracticeProjService: IPracticeProj
+    public class PracticeProjService : IPracticeProj
     {
         private readonly HomeDbContext _context;
         DataTable dt = new DataTable();
@@ -23,14 +23,14 @@ namespace PracticeProject.Services
 
         }
 
-       public async Task<MessageHelper> CreateItems(List<ItemsViewModel> objlist)
+        public async Task<MessageHelper> CreateItems(List<ItemsViewModel> objlist)
         {
             try
             {
                 List<TblItem> newObjList = new List<TblItem>();
                 foreach (var obj in objlist)
                 {
-                    var createmulti = _context.TblItems.Where(x => x.StrItemName == obj.StrItemName && x.IsActive==true)
+                    var createmulti = _context.TblItems.Where(x => x.StrItemName == obj.StrItemName && x.IsActive == true)
                         .Select(a => a).FirstOrDefault();
                     if (createmulti != null)
                     {
@@ -40,13 +40,13 @@ namespace PracticeProject.Services
                     {
                         NumStockQuantity = obj.NumStockQuantity,
                         StrItemName = obj.StrItemName,
-                        IsActive= true
+                        IsActive = true
                     };
                     newObjList.Add(objNew);
                     await _context.TblItems.AddRangeAsync(newObjList);
                     await _context.SaveChangesAsync();
 
-                   
+
                 }
                 mes.StatusCode = 200;
                 mes.Message = "CREATE SUCCESSFULLY";
@@ -58,8 +58,54 @@ namespace PracticeProject.Services
             }
             return mes;
         }
+        public async Task<List<GetItemsViewModel>> GetItems(long IntItemId)
+        {
+            var data = _context.TblItems.Where(x => x.IntItemId == IntItemId || IntItemId == 0)
+                                            .Select(a => new GetItemsViewModel()
+                                            {
+                                                IntItemId = a.IntItemId,
+                                                StrItemName = a.StrItemName,
+                                                NumStockQuantity = a.NumStockQuantity,
+
+                                            }
+                                            ).ToList();
+
+            return data;
+
+        }
+        public async Task<MessageHelper> EditItems(List<EditViewModel> objlist)
+        {
+            try
+            {
+                List<TblItem> newObjList = new List<TblItem>();
+                foreach (var obj in objlist)
+                {
+                    var data = _context.TblItems.Where(x => x.IntItemId == obj.IntItemId)
+                                                 .Select(a => a).FirstOrDefault();
+                    data.StrItemName = obj.StrItemName;
+                    data.NumStockQuantity = (long)obj.NumStockQuantity;
+                    newObjList.Add(data);
+                }
+                _context.TblItems.UpdateRange(newObjList);
+                await _context.SaveChangesAsync();
+                mes.StatusCode = 200;
+                mes.Message = "UPDATED SUCCESSFULLY";
+
+            }
+            
+        
+            catch (Exception ex)
+            {
+                mes.Message = ex.Message;
+                mes.StatusCode = 500;
+            }
+            return mes;
+        }
+}
+        
 
 
-    }
+
+        
     
 }
