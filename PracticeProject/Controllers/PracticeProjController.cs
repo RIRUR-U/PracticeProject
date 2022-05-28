@@ -29,6 +29,40 @@ namespace PracticeProject.Controllers
             return await _practice.GetItems(IntItemId);
 
         }
+        [HttpPost]
+        [Route("PartnerTypeCreate")]
+        public async Task<IActionResult> PartnerTypeCreate(PartnerTypeViewModel obj)
+        {
+
+            return Ok(await _practice.CreatePartnerType(obj));
+
+
+
+        }
+        [HttpPost]
+        [Route("PartnerCreate")]
+        public async Task<IActionResult> PartnerCreate(PartnerViewModel obj)
+        {
+
+            return Ok(await _practice.CreatePartner(obj));
+
+        }
+        [HttpPost]
+        [Route("SalesItem")]
+        public async Task<IActionResult> SalesItem(SalesviewModel obj)
+        {
+
+            return Ok(await _practice.SalesItem(obj));
+
+        }
+        [HttpPost]
+        [Route("PurchaseItem")]
+        public async Task<IActionResult> PurchaseItem(PurchaseViewModel obj)
+        {
+
+            return Ok(await _practice.PurchaseItem(obj));
+
+        }
 
     }
 }

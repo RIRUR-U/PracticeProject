@@ -8,5 +8,9 @@ namespace PracticeProject.Services.Interfaces
     {
         Task<MessageHelper> CreateItems(List<ItemsViewModel> objlist);
         Task<List<GetItemsViewModel>> GetItems(long IntItemId);
+        Task<MessageHelper> CreatePartnerType(PartnerTypeViewModel obj);
+        Task<MessageHelper> CreatePartner(PartnerViewModel obj);
+        Task<MessageHelper> SalesItem(SalesviewModel obj);
+        Task<MessageHelper> PurchaseItem(PurchaseViewModel obj);
     }
 }

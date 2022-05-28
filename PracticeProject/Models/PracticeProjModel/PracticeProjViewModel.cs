@@ -40,6 +40,7 @@
             public long IntSupplierId { get; set; }
             public DateTime DtePurchaseDate { get; set; }
             public bool? IsActive { get; set; }
+            public List<PurchaseDetailsViewModel> PurchaseItemList { get; set; }
         }
         public class PurchaseDetailsViewModel
         {
@@ -56,6 +57,7 @@
             public long IntCustomerId { get; set; }
             public DateTime DteSalesDate { get; set; }
             public bool? IsActive { get; set; }
+            public List<SalesDetailsViewModel> salesItemList { get; set; }
         }
 
         public class SalesDetailsViewModel
