@@ -44,11 +44,13 @@
         }
         public class PurchaseDetailsViewModel
         {
+            
             public long IntDetailsId { get; set; }
             public long IntPurchaseId { get; set; }
             public long IntItemId { get; set; }
             public long NumItemQuantity { get; set; }
             public long NumUnitPrice { get; set; }
+            public string? StrItemName { get; set; }
             public bool? IsActive { get; set; }
         }
         public class SalesviewModel
@@ -65,7 +67,7 @@
             public long IntDetailsId { get; set; }
             public long IntSalesId { get; set; }
             public long IntItemId { get; set; }
-            public long? IntItemQuantity { get; set; }
+            public long IntItemQuantity { get; set; }
             public long NumUnitPrice { get; set; }
             public bool? IsActive { get; set; }
         }

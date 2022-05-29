@@ -42,12 +42,10 @@ namespace PracticeProject.Services
                         StrItemName = obj.StrItemName,
                         IsActive = true
                     };
-                    newObjList.Add(objNew);
-                    await _context.TblItems.AddRangeAsync(newObjList);
-                    await _context.SaveChangesAsync();
-
-
+                   newObjList.Add(objNew);     
                 }
+                await _context.TblItems.AddRangeAsync(newObjList);
+                await _context.SaveChangesAsync();
                 mes.StatusCode = 200;
                 mes.Message = "CREATE SUCCESSFULLY";
             }
@@ -110,23 +108,24 @@ namespace PracticeProject.Services
                     var create = _context.TblPartnerTypes.Where(x => x.StrPartnerTypeName == obj.StrPartnerTypeName && x.IsActive == true)
                         .Select(a => a).FirstOrDefault();
 
-                
+
                 if (create != null)
                 {
-                   //throw new Exception($"{obj.StrItemName} Name Already Exits");
-                   mes.Message = "Already Exists";
+                    //throw new Exception($"{obj.StrItemName} Name Already Exits");
+                    mes.Message = "Already Exists";
                 }
-
-                TblPartnerType objNewPartnerType = new TblPartnerType()
+                else
                 {
-                    StrPartnerTypeName = obj.StrPartnerTypeName,
-                    IsActive = true
-                };
-                await _context.TblPartnerTypes.AddRangeAsync(objNewPartnerType);
+                    TblPartnerType objNewPartnerType = new TblPartnerType()
+                    {
+                        StrPartnerTypeName = obj.StrPartnerTypeName,
+                        IsActive = true
+                    };
+                    await _context.TblPartnerTypes.AddRangeAsync(objNewPartnerType);
                     await _context.SaveChangesAsync();
                     mes.StatusCode = 200;
                     mes.Message = "CREATE SUCCESSFULLY";
-                    
+                }
             }
             catch (Exception ex)
             {
@@ -183,6 +182,10 @@ namespace PracticeProject.Services
                     if (item.IntItemQuantity <= quantity)
                     {
                         salesDetailsList.Add(salesDetail);
+                        var row = _context.TblItems.Where(x=> x.IntItemId==item.IntItemId).FirstOrDefault();
+                        row.NumStockQuantity -= item.IntItemQuantity;
+                        _context.TblItems.Update(row);
+                        await _context.SaveChangesAsync();
                     }
 
                 }
@@ -192,7 +195,7 @@ namespace PracticeProject.Services
                     DteSalesDate = obj.DteSalesDate,
                     IsActive = true
                 };
-                await _context.TblSales.AddRangeAsync(sales);
+                await _context.TblSales.AddAsync(sales);
                 await _context.SaveChangesAsync();
 
                 await _context.TblSalesDetails.AddRangeAsync(salesDetailsList);
@@ -218,12 +221,7 @@ namespace PracticeProject.Services
 
                 foreach (var item in obj.PurchaseItemList)
                 {
-                    var quantity = from i in _context.TblItems
-                                   where i.IntItemId == item.IntItemId && i.IsActive == true
-                                   select new
-                                   {
-                                       itemQuantity = i.NumStockQuantity
-                                   };
+                    var quantity = _context.TblItems.Where(x => x.IntItemId == item.IntItemId).FirstOrDefault();
 
                     TblPurchaseDetail purchaseDetail = new TblPurchaseDetail
                     {
@@ -232,8 +230,32 @@ namespace PracticeProject.Services
                         NumItemQuantity = item.NumItemQuantity,
                         NumUnitPrice = item.NumUnitPrice,
                         IsActive = true
-                    };
 
+                    };
+                    if (quantity != null)
+                    {
+                        //throw new Exception($"{obj.StrItemName} Name Already Exits");
+                        mes.Message = "Already Exists";
+                        var row = _context.TblItems.Where(x => x.IntItemId == item.IntItemId).FirstOrDefault();
+                        row.NumStockQuantity += item.NumItemQuantity;
+                        _context.TblItems.Update(row);
+                        await _context.SaveChangesAsync();
+                    }
+                    else
+                    {
+
+                        TblItem objNew = new TblItem()
+                        {
+                            NumStockQuantity = item.NumItemQuantity,
+                            StrItemName = item.StrItemName,
+                            IsActive = true
+                        };
+                        
+                        await _context.TblItems.AddAsync(objNew);
+                        await _context.SaveChangesAsync();
+                    }
+                    purchaseDetailsList.Add(purchaseDetail);  
+                    
                 }
 
                 TblPurchase purchase = new TblPurchase
@@ -243,7 +265,7 @@ namespace PracticeProject.Services
                     IsActive = true
                 };
 
-                await _context.TblPurchases.AddRangeAsync(purchase);
+                await _context.TblPurchases.AddAsync(purchase);
                 await _context.SaveChangesAsync();
 
 
@@ -262,10 +284,10 @@ namespace PracticeProject.Services
             return mes;
         }
 
-        public async Task<List<GetItemWiseMonthlySalesViewModel>> GetItemWiseMonthlySalesReport(DateTime dteSalesDate)
-        {
+        //public async Task<List<GetItemWiseMonthlySalesViewModel>> GetItemWiseMonthlySalesReport(DateTime dteSalesDate)
+        //{
 
-        }
+        //}
 
 
     }
