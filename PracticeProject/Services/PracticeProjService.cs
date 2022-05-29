@@ -181,7 +181,7 @@ namespace PracticeProject.Services
                                     where i.IntItemId == item.IntItemId && i.IsActive == true
                                     select i.NumStockQuantity).FirstOrDefault();
 
-                    if (item.IntItemQuantity < quantity)
+                    if (item.IntItemQuantity <= quantity)
                     {
                         salesDetailsList.Add(salesDetail);
                     }
