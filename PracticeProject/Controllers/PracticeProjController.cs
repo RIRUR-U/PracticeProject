@@ -57,10 +57,10 @@ namespace PracticeProject.Controllers
         }
         [HttpPost]
         [Route("PurchaseItem")]
-        public async Task<IActionResult> PurchaseItem(PurchaseViewModel obj)
+        public async Task<IActionResult> PurchaseItemFromSupplier(PurchaseViewModel obj)
         {
 
-            return Ok(await _practice.PurchaseItem(obj));
+            return Ok(await _practice.PurchaseItemFromSupplier(obj));
 
         }
 

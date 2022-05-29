@@ -70,5 +70,13 @@
             public bool? IsActive { get; set; }
         }
 
+        public class GetItemWiseMonthlySalesViewModel
+        {
+            public long IntSalesId { get; set; }
+            public long IntCustomerId { get; set; }
+            public DateTime DteSalesDate { get; set; }
+            public bool? IsActive { get; set; }
+            SalesDetailsViewModel? salesdetailes { get; set; }
+        }
     }
 }

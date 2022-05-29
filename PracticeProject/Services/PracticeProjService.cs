@@ -168,6 +168,10 @@ namespace PracticeProject.Services
 
                 foreach (var item in obj.salesItemList)
                 {
+                    var quantity = (from i in _context.TblItems
+                                    where i.IntItemId == item.IntItemId && i.IsActive == true
+                                    select i.NumStockQuantity).FirstOrDefault();
+
                     TblSalesDetail salesDetail = new TblSalesDetail
                     {
                         IntSalesId = item.IntSalesId,
@@ -176,11 +180,6 @@ namespace PracticeProject.Services
                         NumUnitPrice = item.NumUnitPrice,
                         IsActive = true
                     };
-
-                    var quantity = (from i in _context.TblItems
-                                    where i.IntItemId == item.IntItemId && i.IsActive == true
-                                    select i.NumStockQuantity).FirstOrDefault();
-
                     if (item.IntItemQuantity <= quantity)
                     {
                         salesDetailsList.Add(salesDetail);
@@ -211,7 +210,7 @@ namespace PracticeProject.Services
             return mes;
 
         }
-        public async Task<MessageHelper> PurchaseItem(PurchaseViewModel obj)
+        public async Task<MessageHelper> PurchaseItemFromSupplier(PurchaseViewModel obj)
         {
             try
             {
@@ -219,6 +218,13 @@ namespace PracticeProject.Services
 
                 foreach (var item in obj.PurchaseItemList)
                 {
+                    var quantity = from i in _context.TblItems
+                                   where i.IntItemId == item.IntItemId && i.IsActive == true
+                                   select new
+                                   {
+                                       itemQuantity = i.NumStockQuantity
+                                   };
+
                     TblPurchaseDetail purchaseDetail = new TblPurchaseDetail
                     {
                         IntItemId = item.IntItemId,
@@ -227,14 +233,6 @@ namespace PracticeProject.Services
                         NumUnitPrice = item.NumUnitPrice,
                         IsActive = true
                     };
-
-                    var quantity = from i in _context.TblItems
-                                   where i.IntItemId == item.IntItemId && i.IsActive == true
-                                   select new
-                                   {
-                                       itemQuantity = i.NumStockQuantity
-                                   };
-                    
 
                 }
 
@@ -263,6 +261,12 @@ namespace PracticeProject.Services
 
             return mes;
         }
+
+        public async Task<List<GetItemWiseMonthlySalesViewModel>> GetItemWiseMonthlySalesReport(DateTime dteSalesDate)
+        {
+
+        }
+
 
     }
         

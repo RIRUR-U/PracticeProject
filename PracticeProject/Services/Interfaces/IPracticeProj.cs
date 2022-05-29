@@ -11,6 +11,6 @@ namespace PracticeProject.Services.Interfaces
         Task<MessageHelper> CreatePartnerType(PartnerTypeViewModel obj);
         Task<MessageHelper> CreatePartner(PartnerViewModel obj);
         Task<MessageHelper> SalesItem(SalesviewModel obj);
-        Task<MessageHelper> PurchaseItem(PurchaseViewModel obj);
+        Task<MessageHelper> PurchaseItemFromSupplier(PurchaseViewModel obj);
     }
 }
