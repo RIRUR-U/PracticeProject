@@ -338,6 +338,34 @@ namespace PracticeProject.Services
             }
         }
 
+        //public async Task<List<GetItemWiseDailyPurchaseViewModel>> GetSupplierWiseDailyPurchaseReport(DateTime dtePurchaseDate)
+        //{
+        //    try
+        //    {
+        //        List<GetItemWiseDailyPurchaseViewModel> purchase = (from par in _context.TblPurchases
+        //                                                            join parDet in _context.TblPurchaseDetails on par.IntPurchaseId equals parDet.IntPurchaseId
+        //                                                            from it in _context.TblItems
+        //                                                            join pd in _context.TblPurchaseDetails on it.IntItemId equals pd.IntItemId
+        //                                                            from pt in _context.TblPartners
+        //                                                            join pdd in _context.TblPurchaseDetails on 
+        //                                                            where (par.DtePurchaseDate.Date == dtePurchaseDate.Date)
+        //                                                            group new { par, parDet, it } by new { par.DtePurchaseDate, par.IntPurchaseId, it.StrItemName } into c
+        //                                                            select new GetItemWiseDailyPurchaseViewModel
+        //                                                            {
+        //                                                                SupplierName =c.Key.
+        //                                                                DtePurchaseDate = c.Key.DtePurchaseDate,
+        //                                                                StrItemName = c.Key.StrItemName,
+        //                                                                PuchaseQuantity = c.Sum(x => x.parDet.NumItemQuantity),
+        //                                                                UnitPrice = c.Sum(x => x.parDet.NumUnitPrice)
+        //                                                            }).ToList();
+        //        return purchase;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
 
     }
 

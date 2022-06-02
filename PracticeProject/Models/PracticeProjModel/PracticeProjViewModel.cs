@@ -24,14 +24,14 @@
         public class PartnerViewModel
         {
             public long IntPartnerId { get; set; }
-            public string StrPartnerName { get; set; } = null!;
+            public string? StrPartnerName { get; set; } 
             public long IntPartnerTypeId { get; set; }
             public bool? IsActive { get; set; }
         }
         public class PartnerTypeViewModel
         {
             public long IntPartnerTypeId { get; set; }
-            public string StrPartnerTypeName { get; set; } = null!;
+            public string? StrPartnerTypeName { get; set; } 
             public bool? IsActive { get; set; }
         }
         public class PurchaseViewModel
@@ -81,6 +81,7 @@
             public DateTime DtePurchaseDate { get; set; }
             public long IntItemId { get; set; }
             public string? StrItemName { get; set; }
+            public string? SupplierName { get; set; }
             public long UnitPrice { get; set; }
             public bool? IsActive { get; set; }
             PurchaseDetailsViewModel? purchaseDetails { get; set; }
