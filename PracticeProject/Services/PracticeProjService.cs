@@ -159,6 +159,76 @@ namespace PracticeProject.Services
 
             return mes;
         }
+        public async Task<MessageHelper> PurchaseItemFromSupplier(PurchaseViewModel obj)
+        {
+            try
+            {
+                List<TblPurchaseDetail> purchaseDetailsList = new List<TblPurchaseDetail>();
+
+                foreach (var item in obj.PurchaseItemList)
+                {
+                    var quantity = _context.TblItems.Where(x => x.IntItemId == item.IntItemId).FirstOrDefault();
+
+                    TblPurchaseDetail purchaseDetail = new TblPurchaseDetail
+                    {
+                        IntItemId = item.IntItemId,
+                        IntPurchaseId = item.IntPurchaseId,
+                        NumItemQuantity = item.NumItemQuantity,
+                        NumUnitPrice = item.NumUnitPrice,
+                        IsActive = true
+
+                    };
+                    if (quantity != null)
+                    {
+                        //throw new Exception($"{obj.StrItemName} Name Already Exits");
+                        mes.Message = "Already Exists";
+                        var row = _context.TblItems.Where(x => x.IntItemId == item.IntItemId).FirstOrDefault();
+                        row.NumStockQuantity += item.NumItemQuantity;
+                        _context.TblItems.Update(row);
+                        await _context.SaveChangesAsync();
+                    }
+                    else
+                    {
+
+                        TblItem objNew = new TblItem()
+                        {
+                            NumStockQuantity = item.NumItemQuantity,
+                            StrItemName = item.StrItemName,
+                            IsActive = true
+                        };
+
+                        await _context.TblItems.AddAsync(objNew);
+                        await _context.SaveChangesAsync();
+                    }
+                    purchaseDetailsList.Add(purchaseDetail);
+
+                }
+
+                TblPurchase purchase = new TblPurchase
+                {
+                    IntSupplierId = obj.IntSupplierId,
+                    DtePurchaseDate = obj.DtePurchaseDate,
+                    IsActive = true
+                };
+
+                await _context.TblPurchases.AddAsync(purchase);
+                await _context.SaveChangesAsync();
+
+
+                await _context.TblPurchaseDetails.AddRangeAsync(purchaseDetailsList);
+                await _context.SaveChangesAsync();
+
+                mes.Message = "Purchased Successful";
+                mes.StatusCode = 200;
+            }
+            catch (Exception ex)
+            {
+                mes.Message = ex.Message;
+                mes.StatusCode = 500;
+            }
+
+            return mes;
+        }
         public async Task<MessageHelper> SalesItem(SalesviewModel obj)
         {
             try
@@ -213,76 +283,7 @@ namespace PracticeProject.Services
             return mes;
 
         }
-        public async Task<MessageHelper> PurchaseItemFromSupplier(PurchaseViewModel obj)
-        {
-            try
-            {
-                List<TblPurchaseDetail> purchaseDetailsList = new List<TblPurchaseDetail>();
-
-                foreach (var item in obj.PurchaseItemList)
-                {
-                    var quantity = _context.TblItems.Where(x => x.IntItemId == item.IntItemId).FirstOrDefault();
-
-                    TblPurchaseDetail purchaseDetail = new TblPurchaseDetail
-                    {
-                        IntItemId = item.IntItemId,
-                        IntPurchaseId = item.IntPurchaseId,
-                        NumItemQuantity = item.NumItemQuantity,
-                        NumUnitPrice = item.NumUnitPrice,
-                        IsActive = true
-
-                    };
-                    if (quantity != null)
-                    {
-                        //throw new Exception($"{obj.StrItemName} Name Already Exits");
-                        mes.Message = "Already Exists";
-                        var row = _context.TblItems.Where(x => x.IntItemId == item.IntItemId).FirstOrDefault();
-                        row.NumStockQuantity += item.NumItemQuantity;
-                        _context.TblItems.Update(row);
-                        await _context.SaveChangesAsync();
-                    }
-                    else
-                    {
-
-                        TblItem objNew = new TblItem()
-                        {
-                            NumStockQuantity = item.NumItemQuantity,
-                            StrItemName = item.StrItemName,
-                            IsActive = true
-                        };
-                        
-                        await _context.TblItems.AddAsync(objNew);
-                        await _context.SaveChangesAsync();
-                    }
-                    purchaseDetailsList.Add(purchaseDetail);  
-                    
-                }
-
-                TblPurchase purchase = new TblPurchase
-                {
-                    IntSupplierId = obj.IntSupplierId,
-                    DtePurchaseDate = obj.DtePurchaseDate,
-                    IsActive = true
-                };
-
-                await _context.TblPurchases.AddAsync(purchase);
-                await _context.SaveChangesAsync();
-
-
-                await _context.TblPurchaseDetails.AddRangeAsync(purchaseDetailsList);
-                await _context.SaveChangesAsync();
-
-                mes.Message = "Purchased Successful";
-                mes.StatusCode = 200;
-            }
-            catch (Exception ex)
-            {
-                mes.Message = ex.Message;
-                mes.StatusCode = 500;
-            }
-
-            return mes;
-        }
+        
 
         //public async Task<List<GetItemWiseMonthlySalesViewModel>> GetItemWiseMonthlySalesReport(DateTime dteSalesDate)
         //{

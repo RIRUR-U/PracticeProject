@@ -48,14 +48,6 @@ namespace PracticeProject.Controllers
 
         }
         [HttpPost]
-        [Route("SalesItem")]
-        public async Task<IActionResult> SalesItem(SalesviewModel obj)
-        {
-
-            return Ok(await _practice.SalesItem(obj));
-
-        }
-        [HttpPost]
         [Route("PurchaseItem")]
         public async Task<IActionResult> PurchaseItemFromSupplier(PurchaseViewModel obj)
         {
@@ -63,6 +55,15 @@ namespace PracticeProject.Controllers
             return Ok(await _practice.PurchaseItemFromSupplier(obj));
 
         }
+        [HttpPost]
+        [Route("SalesItem")]
+        public async Task<IActionResult> SalesItem(SalesviewModel obj)
+        {
+
+            return Ok(await _practice.SalesItem(obj));
+
+        }
+        
 
     }
 }
