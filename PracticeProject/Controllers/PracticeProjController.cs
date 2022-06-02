@@ -63,7 +63,14 @@ namespace PracticeProject.Controllers
             return Ok(await _practice.SalesItem(obj));
 
         }
-        
 
+        [HttpPost]
+        [Route("GetItemWiseDailyPurchaseViewModel")]
+        public async Task<IActionResult> GetItemWiseDailyPurchaseViewModel(DateTime dtePurchaseDate)
+        {
+
+            return Ok(await _practice.GetItemWiseDailyPurchaseViewModel(dtePurchaseDate));
+
+        }
     }
 }

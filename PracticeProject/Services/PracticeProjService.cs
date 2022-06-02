@@ -284,6 +284,31 @@ namespace PracticeProject.Services
 
         }
         
+        public async Task<List<GetItemWiseDailyPurchaseViewModel>> GetItemWiseDailyPurchaseViewModel(DateTime dtePurchaseDate)
+        {
+            try
+            {
+                List<GetItemWiseDailyPurchaseViewModel> purchase = (from par in _context.TblPurchases
+                                                                    join parDet in _context.TblPurchaseDetails on par.IntPurchaseId equals parDet.IntPurchaseId
+                                                                    from it in _context.TblItems
+                                                                    join pd in _context.TblPurchaseDetails on it.IntItemId equals pd.IntItemId
+                                                                    where (par.DtePurchaseDate.Date ==dtePurchaseDate.Date)
+                                                                    group new {par, parDet, it} by new {parDet.IntItemId, par.DtePurchaseDate, par.IntPurchaseId,it.StrItemName} into c
+                                                                    select new GetItemWiseDailyPurchaseViewModel
+                                                                    {
+                                                                        IntPurchaseId = c.Key.IntPurchaseId,
+                                                                        DtePurchaseDate = c.Key.DtePurchaseDate,
+                                                                        StrItemName = c.Key.StrItemName,
+                                                                        PuchaseQuantity = c.Sum(x=> x.parDet.NumItemQuantity),
+                                                                        UnitPrice = c.Sum(x=> x.parDet.NumUnitPrice)
+                                                                    }).ToList();
+                return purchase;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         //public async Task<List<GetItemWiseMonthlySalesViewModel>> GetItemWiseMonthlySalesReport(DateTime dteSalesDate)
         //{

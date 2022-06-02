@@ -72,6 +72,18 @@
             public bool? IsActive { get; set; }
         }
 
+        public class GetItemWiseDailyPurchaseViewModel
+        {
+            public long IntPurchaseId { get; set; }
+            public long IntSupplierId { get; set; }
+            //public string StrSupplierName { get; set; }
+            public long PuchaseQuantity { get; set; }
+            public DateTime DtePurchaseDate { get; set; }
+            public string? StrItemName { get; set; }
+            public long UnitPrice { get; set; }
+            public bool? IsActive { get; set; }
+            PurchaseDetailsViewModel? purchaseDetails { get; set; }
+        }
         public class GetItemWiseMonthlySalesViewModel
         {
             public long IntSalesId { get; set; }
