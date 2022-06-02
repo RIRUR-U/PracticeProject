@@ -79,6 +79,7 @@
             //public string StrSupplierName { get; set; }
             public long PuchaseQuantity { get; set; }
             public DateTime DtePurchaseDate { get; set; }
+            public long IntItemId { get; set; }
             public string? StrItemName { get; set; }
             public long UnitPrice { get; set; }
             public bool? IsActive { get; set; }
@@ -87,7 +88,11 @@
         public class GetItemWiseMonthlySalesViewModel
         {
             public long IntSalesId { get; set; }
+            public long IntItemId { get; set; }
             public long IntCustomerId { get; set; }
+            public string? StrItemName { get; set; }
+            public long IntSalesItemQuantity { get; set; }
+            public long UnitPrice { get; set; }
             public DateTime DteSalesDate { get; set; }
             public bool? IsActive { get; set; }
             SalesDetailsViewModel? salesdetailes { get; set; }

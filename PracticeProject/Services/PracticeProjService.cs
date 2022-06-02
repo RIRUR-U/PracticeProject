@@ -296,6 +296,7 @@ namespace PracticeProject.Services
                                                                     group new {par, parDet, it} by new {parDet.IntItemId, par.DtePurchaseDate, par.IntPurchaseId,it.StrItemName} into c
                                                                     select new GetItemWiseDailyPurchaseViewModel
                                                                     {
+                                                                        IntItemId= c.Key.IntItemId,
                                                                         IntPurchaseId = c.Key.IntPurchaseId,
                                                                         DtePurchaseDate = c.Key.DtePurchaseDate,
                                                                         StrItemName = c.Key.StrItemName,
@@ -310,17 +311,39 @@ namespace PracticeProject.Services
             }
         }
 
-        //public async Task<List<GetItemWiseMonthlySalesViewModel>> GetItemWiseMonthlySalesReport(DateTime dteSalesDate)
-        //{
-
-        //}
+        public async Task<List<GetItemWiseMonthlySalesViewModel>> GetItemWiseMonthlySalesReport(DateTime dteSalesDate)
+        {
+            try
+            {
+                List<GetItemWiseMonthlySalesViewModel> salary = (from sal in _context.TblSales
+                                                                 join salDet in _context.TblSalesDetails on sal.IntSalesId equals salDet.IntSalesId
+                                                                 from it in _context.TblItems
+                                                                 join sd in _context.TblSalesDetails on it.IntItemId equals sd.IntItemId
+                                                                 where (sal.DteSalesDate.Date == dteSalesDate.Date)
+                                                                 group new {sal, salDet, it} by new {salDet.IntItemId, sal.DteSalesDate, sal.IntSalesId, it.StrItemName} into d
+                                                                 select new GetItemWiseMonthlySalesViewModel
+                                                                 {
+                                                                     IntItemId = d.Key.IntItemId,
+                                                                     IntSalesId = d.Key.IntSalesId,
+                                                                     DteSalesDate = d.Key.DteSalesDate,
+                                                                     StrItemName = d.Key.StrItemName,
+                                                                     IntSalesItemQuantity = (long)d.Sum(y => y.salDet.IntItemQuantity),
+                                                                     UnitPrice = d.Sum(y => y.salDet.NumUnitPrice)
+                                                                 } ).ToList();
+                return salary;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
     }
-        
 
 
 
-        
-    
+
+
+
 }
