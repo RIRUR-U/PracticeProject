@@ -13,6 +13,7 @@ namespace PracticeProject.Services.Interfaces
         Task<MessageHelper> PurchaseItemFromSupplier(PurchaseViewModel obj);
         Task<MessageHelper> SalesItem(SalesviewModel obj);
         Task<List<GetItemWiseDailyPurchaseViewModel>> GetItemWiseDailyPurchaseViewModel(DateTime dtePurchaseDate);
+        Task<List<GetItemWiseMonthlySalesViewModel>> GetItemWiseMonthlySalesReport(DateTime dteSalesDate);
 
 
     }
