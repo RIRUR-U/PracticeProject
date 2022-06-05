@@ -338,33 +338,98 @@ namespace PracticeProject.Services
             }
         }
 
-        //public async Task<List<GetItemWiseDailyPurchaseViewModel>> GetSupplierWiseDailyPurchaseReport(DateTime dtePurchaseDate)
-        //{
-        //    try
-        //    {
-        //        List<GetItemWiseDailyPurchaseViewModel> purchase = (from par in _context.TblPurchases
-        //                                                            join parDet in _context.TblPurchaseDetails on par.IntPurchaseId equals parDet.IntPurchaseId
-        //                                                            from it in _context.TblItems
-        //                                                            join pd in _context.TblPurchaseDetails on it.IntItemId equals pd.IntItemId
-        //                                                            from pt in _context.TblPartners
-        //                                                            join pdd in _context.TblPurchaseDetails on 
-        //                                                            where (par.DtePurchaseDate.Date == dtePurchaseDate.Date)
-        //                                                            group new { par, parDet, it } by new { par.DtePurchaseDate, par.IntPurchaseId, it.StrItemName } into c
-        //                                                            select new GetItemWiseDailyPurchaseViewModel
-        //                                                            {
-        //                                                                SupplierName =c.Key.
-        //                                                                DtePurchaseDate = c.Key.DtePurchaseDate,
-        //                                                                StrItemName = c.Key.StrItemName,
-        //                                                                PuchaseQuantity = c.Sum(x => x.parDet.NumItemQuantity),
-        //                                                                UnitPrice = c.Sum(x => x.parDet.NumUnitPrice)
-        //                                                            }).ToList();
-        //        return purchase;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+        public async Task<List<GetItemWiseDailyPurchaseViewModel>> GetSupplierWiseDailyPurchaseReport(DateTime dtePurchaseDate)
+        {
+            try
+            {
+                List<GetItemWiseDailyPurchaseViewModel> purchase = (from par in _context.TblPurchases
+                                                                    join parDet in _context.TblPurchaseDetails on par.IntPurchaseId equals parDet.IntPurchaseId
+                                                                    from it in _context.TblItems
+                                                                    join pd in _context.TblPurchaseDetails on it.IntItemId equals pd.IntItemId
+                                                                    from pt in _context.TblPartners
+                                                                    join pdd in _context.TblPartnerTypes on pt.IntPartnerTypeId equals pdd.IntPartnerTypeId
+                                                                    where (par.DtePurchaseDate.Date == dtePurchaseDate.Date)
+                                                                    group new { par, parDet, it,pt,pdd } by new { par.DtePurchaseDate, par.IntPurchaseId, it.StrItemName,pt.StrPartnerName } into c
+                                                                    select new GetItemWiseDailyPurchaseViewModel
+                                                                    {
+                                                                        SupplierName =c.Key.StrPartnerName,
+                                                                        DtePurchaseDate = c.Key.DtePurchaseDate,
+                                                                        StrItemName = c.Key.StrItemName,
+                                                                        PuchaseQuantity = c.Sum(x => x.parDet.NumItemQuantity),
+                                                                        UnitPrice = c.Sum(x => x.parDet.NumUnitPrice)
+                                                                    }).ToList();
+                return purchase;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<List<GetItemWiseMonthlySalesViewModel>> GetCustomerWiseMonthlySalesReport(DateTime dteSalesDate)
+        {
+            try
+            {
+                List<GetItemWiseMonthlySalesViewModel> salary = (from sal in _context.TblSales
+                                                                 join salDet in _context.TblSalesDetails on sal.IntSalesId equals salDet.IntSalesId
+                                                                 from it in _context.TblItems
+                                                                 join sd in _context.TblSalesDetails on it.IntItemId equals sd.IntItemId
+                                                                 from pt in _context.TblPartners
+                                                                 join pdd in _context.TblPartnerTypes on pt.IntPartnerTypeId equals pdd.IntPartnerTypeId
+                                                                 where (sal.DteSalesDate.Date == dteSalesDate.Date)
+                                                                 group new { sal, salDet, it,pt,pdd } by new { salDet.IntItemId, sal.DteSalesDate, sal.IntSalesId, it.StrItemName, pt.StrPartnerName } into d
+                                                                 select new GetItemWiseMonthlySalesViewModel
+                                                                 {
+                                                                     CustomerName = d.Key.StrPartnerName,
+                                                                     DteSalesDate = d.Key.DteSalesDate,
+                                                                     StrItemName = d.Key.StrItemName,
+                                                                     IntSalesItemQuantity = (long)d.Sum(y => y.salDet.IntItemQuantity),
+                                                                     UnitPrice = d.Sum(y => y.salDet.NumUnitPrice)
+                                                                 }).ToList();
+                return salary;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<List<GetItemWiseDailyPurchaseVSSalesViewModel>> GetItemWiseDailyPuchaseVSSalesReport(DateTime dteDate)
+        {
+            try
+            {
+
+                List<GetItemWiseDailyPurchaseVSSalesViewModel> report= (from par in _context.TblPurchases
+                                                                        join parDet in _context.TblPurchaseDetails on par.IntPurchaseId equals parDet.IntPurchaseId
+                                                                        from it in _context.TblItems
+                                                                        join pd in _context.TblPurchaseDetails on it.IntItemId equals pd.IntItemId
+                                                                        from sal in _context.TblSales
+                                                                        join salDet in _context.TblSalesDetails on sal.IntSalesId equals salDet.IntSalesId
+                                                                        from itt in _context.TblItems
+                                                                        join sd in _context.TblSalesDetails on itt.IntItemId equals sd.IntItemId
+                                                                        where (par.DtePurchaseDate.Date == dteDate.Date || sal.DteSalesDate.Date == dteDate.Date)
+                                                                        group new { par, parDet, it,sal, salDet, itt} by new { parDet.IntItemId, par.DtePurchaseDate, par.IntPurchaseId,it.StrItemName, sal.DteSalesDate, sal.IntSalesId } into c
+                                                                        select new GetItemWiseDailyPurchaseVSSalesViewModel
+                                                                        {
+                                                                            IntItemId = c.Key.IntItemId,
+                                                                            IntPurchaseId = c.Key.IntPurchaseId,
+                                                                            DtePurchaseDate = c.Key.DtePurchaseDate,
+                                                                            StrItemName = c.Key.StrItemName,
+                                                                            IntSalesId = c.Key.IntSalesId,
+                                                                            DteSalesDate = c.Key.DteSalesDate,
+                                                                            PuchaseQuantity = c.Sum(x => x.parDet.NumItemQuantity),
+                                                                            UnitPriceP = c.Sum(x => x.parDet.NumUnitPrice),
+                                                                            IntSalesItemQuantity = (long)c.Sum(y => y.salDet.IntItemQuantity),
+                                                                            UnitPriceS = c.Sum(y => y.salDet.NumUnitPrice)
+
+                                                                        }
+                                                                        ).ToList();
+                return report;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
     }
